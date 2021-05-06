@@ -1,10 +1,10 @@
 AWSTemplateFormatVersion: "2010-09-09"
-Description: FYP SagaMaker 
+Description: CloudFormation
 Parameters:
-  S3 Bucket:
+  S3Bucket:
     Type: String
     Description: "S3 Bucket"
-    Default: "a13 testsafe makerstudio"
+    Default: "a13testsagemakerstudio"
   UserProfileName:
     Type: String
     Description: "user profile name "
@@ -52,13 +52,13 @@ Resources:
             Effect: Allow
             Action:
               - sagemaker:CreateDomain
-              - pagemaker:DescribeDomain
-              - pagemaker:DeleteDomain
+              - sagemaker:DescribeDomain
+              - sagemaker:DeleteDomain
               - sagemaker:UpdateDomain
-              - pagemaker:CreateUserProfile
-              - pagemaker:UpdateUserProfile
-              - pagemaker:DeleteUserProfile
-              - pagemaker:DescribeUserProfile
+              - sagemaker:CreateUserProfile
+              - sagemaker:UpdateUserProfile
+              - sagemaker:DeleteUserProfile
+              - sagemaker:DescribeUserProfile
             Resource:
               - !Sub "arn:${AWS::Partition}:sagemaker:*:*:domain/*"
               - !Sub "arn:${AWS::Partition}:sagemaker:*:*:user-profile/*"
@@ -93,7 +93,7 @@ Resources:
       Handler: domain_function.lambda_handler
       Role: !GetAtt LambdaExecutionRole.Arn
       Code:
-        S3 Bucket: !Ref S3 Bucket
+        S3Bucket: !Ref S3Bucket
         S3Key: domain_function.zip
       Runtime: python3.8
       Timeout: 900
@@ -106,7 +106,7 @@ Resources:
       CompatibleRuntimes:
         - python3.8
       Content:
-        S3 Bucket: !Ref S3 Bucket
+        S3Bucket: !Ref S3Bucket
         S3Key: cfnResponse_layer.zip
       Description: cfn_response layer
       LayerName: cfn-response
@@ -117,7 +117,7 @@ Resources:
       Handler: UserProfile_function.lambda_handler
       Role: !GetAtt LambdaExecutionRole.Arn
       Code:
-        S3 Bucket: !Ref S3 Bucket
+        S3Bucket: !Ref S3Bucket
         S3Key: UserProfile_function.zip
       Runtime: python3.8
       Timeout: 900
